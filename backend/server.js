@@ -537,4 +537,4 @@ app.get("/api/exam1/loi/:userId", (req, res) => {
     });
 });
 //  Start the server
-
+module.exports = app
