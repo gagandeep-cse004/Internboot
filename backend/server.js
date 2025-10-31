@@ -15,10 +15,11 @@ app.use("/uploads", express.static("uploads"));
 
 //  Connect to your remote MySQL database (Hostinger)
 const db = mysql.createConnection({
-    host: "localhost",
-    user: "root",       // change if needed
-    password: "",       // your MySQL password
-    database: "internboot"
+    host: "127.0.0.1",   
+    user: "u293157276_testing",       
+    password: "Pyu^^%etrHG4^*", 
+    database: "u293157276_Trial",
+    
 });
 
 
@@ -26,6 +27,29 @@ db.connect((err) => {
     if (err) console.error(" Database connection failed:", err);
     else console.log(" Connected to MySQL database");
 });
+
+
+
+// app.get("/api/result/:id", (req, res) => {
+//     const { id } = req.params;
+//     const sql = "SELECT file_name FROM results WHERE certificate_id = ?";
+
+//     db.query(sql, [id], (err, rows) => {
+//         if (err) return res.status(500).json({ message: "Database error" });
+//         if (rows.length === 0)
+//             return res.status(404).json({ message: "Invalid Certificate ID" });
+
+//         const fileName = rows[0].file_name;
+//         const filePath = path.join("results", fileName);
+
+//         if (!fs.existsSync(filePath))
+//             return res.status(404).json({ message: "Result file missing" });
+
+//         res.download(filePath, `${id}_Result.pdf`);
+//     });
+// });
+
+
 
 //  Ensure folders exist
 ["uploads/img", "uploads/adhaar", "uploads/passport"].forEach((dir) => {

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result Download Portal</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #002b5b, #005792, #00b4d8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  animation: gradientShift 10s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  padding: 40px 50px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  font-size: 1.6rem;
+  color: #00eaff;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  text-align: center;
+}
+
+button {
+  background: #00eaff;
+  color: #002b5b;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #fff;
+  color: #002b5b;
+  transform: scale(1.05);
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .card {
+    padding: 30px 25px;
+  }
+  .input-area {
+    flex-direction: column;
+  }
+  button {
+    width: 100%;
+  }
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="card">
+            <h1>🎓 Verify & Download Your Result</h1>
+            <p class="subtitle">Enter your unique certificate ID below</p>
+
+            <div class="input-area">
+                <input type="text" id="certificateId" placeholder="Enter Certificate ID" />
+                <button id="downloadBtn">Download</button>
+            </div>
+
+            <p class="footer">© 2025 InternBoot Results Portal</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+    <script>
+                document.getElementById("downloadBtn").addEventListener("click", async () => {
+                const certId = document.getElementById("certificateId").value.trim();
+
+                if (!certId) {
+                    Swal.fire({
+                        icon: "warning",
+                        title: "Missing Certificate ID",
+                        text: "Please enter a valid Certificate ID to continue.",
+                        confirmButtonColor: "#00b4d8",
+                    });
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`/api/result/${certId}`);
+                    if (response.ok) {
+                        const blob = await response.blob();
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement("a");
+                        a.href = url;
+                        a.download = `${certId}_Result.pdf`;
+                        a.click();
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Download Started!",
+                            text: "Your result is being downloaded successfully.",
+                            confirmButtonColor: "#00b4d8",
+                        });
+                    } else {
+                        const data = await response.json();
+                        Swal.fire({
+                            icon: "error",
+                            title: "Invalid Certificate ID",
+                            text: data.message || "No record found in our system.",
+                            confirmButtonColor: "#00b4d8",
+                        });
+                    }
+                } catch {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Server Error",
+                        text: "Something went wrong. Please try again later.",
+                        confirmButtonColor: "#00b4d8",
+                    });
+                }
+            });
+
+    </script>
+</body>
+
+</html>
