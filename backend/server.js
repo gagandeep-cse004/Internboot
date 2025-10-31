@@ -17,7 +17,7 @@ app.use("/uploads", express.static("uploads"));
 const db = mysql.createConnection({
     host: "127.0.0.1",   
     user: "u293157276_testing",       
-    password: "Pyu^^%etrHG4^*", 
+    password: "Intern@0001#", 
     database: "u293157276_Trial",
     
 });
@@ -561,4 +561,6 @@ app.get("/api/exam1/loi/:userId", (req, res) => {
     });
 });
 //  Start the server
-module.exports = app
+app.listen(5000, () =>
+    console.log(" Server running on http://localhost:5000")
+);
