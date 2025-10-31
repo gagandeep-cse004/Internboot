@@ -15,7 +15,7 @@ app.use("/uploads", express.static("uploads"));
 
 //  Connect to your remote MySQL database (Hostinger)
 const db = mysql.createConnection({
-    host: "auth-db446.hstgr.io",   
+    host: "127.0.0.1:23790",   
     user: "u293157276_testing",       
     password: "Intern@0001#", 
     database: "u293157276_Trial",
