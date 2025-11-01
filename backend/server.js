@@ -17,7 +17,7 @@ app.use("/uploads", express.static("uploads"));
 const db = mysql.createConnection({
     host: "auth-db446.hstgr.io",   
     user: "u293157276_testing",       
-    password: "Intern@0001#", 
+    password: "TRAIL@123noida", 
     database: "u293157276_Trial",
     
 });
